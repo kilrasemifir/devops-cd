@@ -25,10 +25,5 @@ def bye():
     return "Bye Bye"
 
 
-@app.get("/bonjour")
-def bye():
-    return "Bonjour tout le monde"
-
-
 if __name__ == "__main__":
     app.run(host=HOST, port=PORT)
