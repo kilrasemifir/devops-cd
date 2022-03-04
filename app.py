@@ -27,7 +27,7 @@ def bye():
 
 @app.get("/bonjour")
 def bye():
-    return "Bonjour"
+    return "Bonjour tout le monde"
 
 
 if __name__ == "__main__":
