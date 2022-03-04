@@ -39,8 +39,10 @@ jobs:
       - run: echo "Hello world!!!"
       - uses: actions/checkout@main
       - uses: azure/CLI@v1
-      - run: az login -u ${{ secrets.USER_EMAIL }} -p ${{ secrets.USER_PASSWORD }}
-      - run: az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        with:
+          inlineScript: |
+            az login -u ${{ secrets.USER_EMAIL }} -p ${{ secrets.USER_PASSWORD }}
+            az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
 
       # - uses: azure/login@v1
       #   with:
