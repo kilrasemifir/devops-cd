@@ -20,5 +20,9 @@ def hello():
     """
     return "Hello world !"
 
+@app.get("/bye")
+def bye():
+    return "Bye Bye"
+
 if __name__ == "__main__":
     app.run(host=HOST, port=PORT)
