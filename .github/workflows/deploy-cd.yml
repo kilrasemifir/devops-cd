@@ -3,34 +3,34 @@ on:
   push:
     branches: [main]
 jobs:
-  conventional-commit:
-      name: "Conventional commit"
-      runs-on: ubuntu-latest
-      steps:
-      - name: "Affichage d'un message d'exemple"
-        run: echo "Salutation"
-      - name: "pull du git"
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: "installation de NodeJS version 14"
-        uses: actions/setup-node@v2
-        with: 
-          node-version: '14'
-      - name: "configuration de l'utilisateur git"
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-      - run: git log
-      - name: "Création du CHANGELOG et du calcule de version"
-        run: npx standard-version
-      - name: "git push"
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
-          fetch-depth: 0
-      - run: git push --tags
+  # conventional-commit:
+  #     name: "Conventional commit"
+  #     runs-on: ubuntu-latest
+  #     steps:
+  #     - name: "Affichage d'un message d'exemple"
+  #       run: echo "Salutation"
+  #     - name: "pull du git"
+  #       uses: actions/checkout@v2
+  #       with:
+  #         fetch-depth: 0
+  #     - name: "installation de NodeJS version 14"
+  #       uses: actions/setup-node@v2
+  #       with: 
+  #         node-version: '14'
+  #     - name: "configuration de l'utilisateur git"
+  #       run: |
+  #         git config --local user.email "github-actions[bot]@users.noreply.github.com"
+  #         git config --local user.name "github-actions[bot]"
+  #     - run: git log
+  #     - name: "Création du CHANGELOG et du calcule de version"
+  #       run: npx standard-version
+  #     - name: "git push"
+  #       uses: ad-m/github-push-action@master
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         branch: main
+  #         fetch-depth: 0
+  #     - run: git push --tags
   
   delivry:
     name: "build et push de l'image sur ACR"
@@ -39,13 +39,17 @@ jobs:
     steps:
       - run: echo "Hello world!!!"
       - uses: actions/checkout@main
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - uses: azure/CLI@v1
+      - run: az login -u ${{ secrets.USER_EMAIL }} -p ${{ secrets.USER_PASSWORD }}
+      - run: az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
+
+      # - uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - uses: azure/docker-login@v1
+      #   with:
+      #     login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      #     username: ${{ secrets.REGISTRY_USERNAME }}
+      #     password: ${{ secrets.REGISTRY_PASSWORD }}
       - run: docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.event.repository.name }}:${{ github.ref_name }}
       - run: docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{ github.event.repository.name }}:${{ github.ref_name }}
