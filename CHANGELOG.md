@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 1.0.1 (2022-03-04)
 
+### 1.0.1 (2022-03-04)
+
 ## [1.1.0](https://github.com/kilrasemifir/devops-cd/compare/v1.0.1...v1.1.0) (2022-03-04)
 
 
