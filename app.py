@@ -24,5 +24,11 @@ def hello():
 def bye():
     return "Bye Bye"
 
+
+@app.get("/bonjour")
+def bye():
+    return "Bonjour"
+
+
 if __name__ == "__main__":
     app.run(host=HOST, port=PORT)
